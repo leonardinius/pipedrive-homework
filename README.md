@@ -2,6 +2,9 @@ indexes
 unit tests
 performance tests?
 
+## Task
+
+See `task/BE_task.pdf`
 
 ## How-to 
 
