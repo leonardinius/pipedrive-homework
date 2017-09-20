@@ -28,8 +28,8 @@
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
     "mocha": "^3.5.3",
+    "node-pg-migrate": "^2.9.0",
     "nodemon": "^1.12.1",
-    "supertest": "^3.0.0",
-    "node-pg-migrate": "^2.9.0"
+    "supertest": "^3.0.0"
   }
 }

@@ -2,7 +2,7 @@ let queryNodes = (db, fnGetName) => {
     const sqlFindByName = db.sql('sqls/findByName.sql');
 
     return (req, res, next) => {
-        let name = fnGetName(req);
+        let name = fnGetName(req).trim();
 
         let pageNo = parseInt(req.query.page) || 0;
         let pageSize = Math.max(0, Math.min(parseInt(req.query.pageSize) || 100, 100));
