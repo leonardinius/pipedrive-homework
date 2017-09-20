@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+  dbpostgresql:
+    container_name: pp-dbpostgresql
+    image: postgres:9.6
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: pp-user
+      POSTGRES_PASSWORD: pp-password
+    ports:
+      - "5432:5432"
+    #volumes:
+    #  - "./.data/postgres:/var/lib/postgresql/data"
