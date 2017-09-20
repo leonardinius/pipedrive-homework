@@ -1,5 +1,4 @@
-indexes (name, type)
-unit tests
+unit tests (page, tree traversal)
 performance tests?
 
 ## Task
