@@ -62,15 +62,15 @@ block content
                             | }
         li
             | GET &nbsp;
-            a(href="/api/nodes?q=:name&page=0&pageSize=100")
-                code /api/nodes?q=:name&page=0&pageSize=100
+            a(href="/api/nodes/:name/?page=0&pageSize=100")
+                code /api/nodes/:name/?page=0&pageSize=100
             |  Query nodes
 
             pre
                 span
                     | Example: GET
-                    a(href="/api/nodes?q=Black Banana&page=0&pageSize=100")
-                        code /api/nodes?q=Black Banana&page=0&pageSize=100
+                    a(href="/api/nodes/Black Banana/?page=0&pageSize=100")
+                        code /api/nodes/Black Banana/?page=0&pageSize=100
                 pre
                     blockquote
                         code

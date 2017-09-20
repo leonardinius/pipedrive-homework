@@ -1,3 +1,8 @@
+indexes
+unit tests
+performance tests?
+
+
 ## How-to 
 
 ### Pre-requisites

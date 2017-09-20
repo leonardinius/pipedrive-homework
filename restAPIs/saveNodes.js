@@ -45,12 +45,7 @@ let collector = (arr) => (data) => {
     return data;
 };
 let logger = (data) => {
-    if (data[0] && data[0] == 'Black Banana') {
-        console.log(data);
-    }
-    if (data[1] && data[1] == 'Black Banana') {
-        console.log(data);
-    }
+    console.debug(data);
     return data;
 };
 
@@ -60,7 +55,13 @@ let prepareSqlData = (root) => {
     return arr;
 };
 
-prepareSqlData(data);
+let allNodes = (data) => {
+    let nodes = new Set();
+    for (let n in data) {
+        nodes.add(data[n][0]);
+    }
+    return nodes;
+};
 
 let saveNodes = (db) => {
     return (req, res, next) => {
@@ -70,6 +71,8 @@ let saveNodes = (db) => {
         }
         let sqlData = prepareSqlData(req.body);
         if (sqlData && sqlData.length > 0) {
+            let nodes = allNodes(sqlData);
+
             db.conn.tx(t => {
                 removeData(t)
                 insertData(t);

@@ -11,8 +11,8 @@ exports.up = (pgm) => {
     });
 
     pgm.createTable('relations', {
-        node_left: {type: 'serial', references: 'nodes'},
-        node_right: {type: 'serial', references: 'nodes'},
+        left_id: {type: 'serial', references: 'nodes'},
+        right_id: {type: 'serial', references: 'nodes'},
         type_id: {type: 'varchar(10)', references: 'types'}
     });
 };
