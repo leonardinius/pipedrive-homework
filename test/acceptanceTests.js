@@ -122,37 +122,4 @@ describe('GET /api/nodes/:name/?page=&pageSize=', function (done) {
             })
             .then(done);
     });
-
-    it('Accepts pagesize parameters = 4', function () {
-        return request(app)
-            .get('/api/nodes/Black%20Banana/?page=0&pageSize=4')
-            .set('Accept', 'application/json')
-            .expect(200)
-            .expect(function (res) {
-                throw new Error("here come dragons");
-            })
-            .then(done);
-    });
-
-    it('Accepts page parameter page=2', function () {
-        return request(app)
-            .get('/api/nodes/Black%20Banana/?page=2&pageSize=')
-            .set('Accept', 'application/json')
-            .expect(200)
-            .expect(function (res) {
-                throw new Error("here come dragons");
-            })
-            .then(done);
-    });
-
-    it('Page size maximizes at 100', function () {
-        return request(app)
-            .get('/api/nodes/Black%20Banana/?page=0&pageSize=200')
-            .set('Accept', 'application/json')
-            .expect(200)
-            .expect(function (res) {
-                throw new Error("here come dragons");
-            })
-            .then(done);
-    });
 });

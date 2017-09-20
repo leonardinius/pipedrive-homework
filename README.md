@@ -1,4 +1,11 @@
-unit tests (page, tree traversal)
+unit tests (tree traversal)
+
+assumptions
+structure
+orm?
+
+100K, 1M relations
+
 performance tests?
 
 ## Task
@@ -14,6 +21,7 @@ See `task/BE_task.pdf`
 brew install docker docker-machine docker-compose
 
 docker-machine create -d virtualbox default
+docker-machine start default
 eval $(docker-machine env default)
 ```
 * NodeJS, Yarn,.. 
