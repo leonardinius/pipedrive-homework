@@ -1,4 +1,4 @@
-exports.up = function up(pgm) {
+exports.up = (pgm) => {
     pgm.createTable('relations_types', {
         id: {type: 'char(10)', primaryKey: true},
         name: {type: 'varchar'},
@@ -16,7 +16,7 @@ exports.up = function up(pgm) {
     });
 };
 
-exports.down = function down(pgm) {
+exports.down = (pgm) => {
     pgm.dropTable('nodes_relations');
     pgm.dropTable('nodes');
     pgm.dropTable('relations');

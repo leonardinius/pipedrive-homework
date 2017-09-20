@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
-var db = require('../db').conn;
+var db = require('../db').db;
 
-router.get('/relationTypes', function getAllRelationTypes(req, res, next) {
+router.get('/relationTypes', (req, res, next) => {
         db.any('select * from relations_types')
-            .then(function (data) {
+            .then((data) => {
                 res.status(200)
                     .json({
                         status: 'success',
@@ -13,7 +13,7 @@ router.get('/relationTypes', function getAllRelationTypes(req, res, next) {
                         message: 'ALL relation types'
                     });
             })
-            .catch(function (err) {
+            .catch((err) => {
                 return next(err);
             });
     }

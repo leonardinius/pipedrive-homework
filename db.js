@@ -10,5 +10,5 @@ var connectionString = process.env.DATABASE_URL || 'postgres://pp-user:pp-passwo
 var db = pgp(connectionString);
 
 module.exports = {
-    conn: db
+    db: db
 };

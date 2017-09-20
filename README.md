@@ -37,7 +37,7 @@ docker-compose up -d
 * Run DB migrations
 
 ```
-node-pg-migrate up
+pg-migrate up
 ```
 
 ## Development
@@ -45,7 +45,8 @@ node-pg-migrate up
 * Run API server in JS reload mode
 
 ```
-nodemon
+yarn dev
+# or use `yarn debug` with debug logs on
 ```
 
 * Fire up [http://localhost:3000/](http://localhost:3000/), explore & have fun
