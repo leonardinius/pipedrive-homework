@@ -1,4 +1,4 @@
-See BE_task.pdf
+See `task/BE_task.pdf`
 
 ## Init 
 
@@ -39,3 +39,13 @@ docker-compose up -d
 ```
 node-pg-migrate up
 ```
+
+## Development
+
+* Run API server in JS reload mode
+
+```
+nodemon
+```
+
+* Fire up [http://localhost:3000/](http://localhost:3000/), explore & have fun

@@ -1,0 +1,106 @@
+extends layout
+
+block content
+    h1 Welcome to #{title}
+
+    ol
+        li
+            | GET &nbsp;
+            a(href="/api/relationTypes")
+                code /api/relationTypes
+            |  List relationship types
+        li
+            | POST &nbsp;
+            a(href="/api/nodes")
+                code /api/nodes
+            |  Stores nodes
+            pre
+                span Example: POST
+                pre
+                    blockquote
+                        code
+                            | {
+                            |   "org_name": "Paradise Island",
+                            |   "daughters": [
+                            |     {
+                            |       "org_name": "Banana tree",
+                            |       "daughters": [
+                            |         {
+                            |           "org_name": "Yellow Banana"
+                            |         },
+                            |         {
+                            |           "org_name": "Brown Banana"
+                            |         },
+                            |         {
+                            |           "org_name": "Black Banana"
+                            |         }
+                            |       ]
+                            |     },
+                            |     {
+                            |       "org_name": "Big banana tree",
+                            |       "daughters": [
+                            |         {
+                            |           "org_name": "Yellow Banana"
+                            |         },
+                            |         {
+                            |           "org_name": "Brown Banana"
+                            |         },
+                            |         {
+                            |           "org_name": "Green Banana"
+                            |         },
+                            |         {
+                            |           "org_name": "Black Banana",
+                            |           "daughters": [
+                            |             {
+                            |               "org_name": "Phoneutria Spider"
+                            |             }
+                            |           ]
+                            |         }
+                            |       ]
+                            |     }
+                            |   ]
+                            | }
+        li
+            | GET &nbsp;
+            a(href="/api/nodes/:name/?page=1&pageSize=100")
+                code /api/nodes/:name/?page=1&pageSize=100
+            |  Query nodes
+
+            pre
+                span
+                    | Example: GET
+                    a(href="/api/nodes/Black Banana/?page=1&pageSize=100")
+                        code /api/nodes/Black Banana/?page=1&pageSize=100
+                pre
+                    blockquote
+                        code
+                            |  [
+                            |    {
+                            |      "relationship_type": "parent",
+                            |      "org_name": "Banana tree"
+                            |    },
+                            |    {
+                            |      "relationship_type": "parent",
+                            |      "org_name": "Big banana tree"
+                            |    },
+                            |    {
+                            |      "relationship_type": "sister",
+                            |      "org_name": "Brown Banana"
+                            |    },
+                            |    {
+                            |      "relationship_type": "sister",
+                            |      "org_name": "Green Banana"
+                            |    },
+                            |    {
+                            |      "relationship_type": "daughter",
+                            |      "org_name": "Phoneutria Spider"
+                            |    },
+                            |    {
+                            |      "relationship_type": "sister",
+                            |      "org_name": "Yellow Banana"
+                            |    }
+                            |  ]
+
+
+
+
