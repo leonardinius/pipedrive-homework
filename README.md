@@ -1,6 +1,4 @@
-See `task/BE_task.pdf`
-
-## Init 
+## How-to 
 
 ### Pre-requisites
 
@@ -41,6 +39,12 @@ pg-migrate up
 ```
 
 ## Development
+
+* Run tests 
+
+```
+yarn test
+```
 
 * Run API server in JS reload mode
 

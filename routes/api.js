@@ -1,22 +1,14 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var db = require('../db').db;
+const db = require('../db');
 
-router.get('/relationTypes', (req, res, next) => {
-        db.any('select * from relations_types')
-            .then((data) => {
-                res.status(200)
-                    .json({
-                        status: 'success',
-                        data: data,
-                        message: 'ALL relation types'
-                    });
-            })
-            .catch((err) => {
-                return next(err);
-            });
-    }
-);
+const listRelationalTypes = require('../restAPIs/listRelationalTypes');
+const saveNodes = require('../restAPIs/saveNodes');
+const queryNodes = require('../restAPIs/queryNodes');
+
+router.get('/relationTypes', listRelationalTypes(db));
+router.post('/nodes', saveNodes(db));
+router.get('/nodes/:name/', queryNodes(db, ((req) => req.params.name)));
 
 module.exports = router;

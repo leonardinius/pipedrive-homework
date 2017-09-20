@@ -1,14 +1,23 @@
-var promise = require('bluebird');
+const promise = require('bluebird');
 
-var options = {
+const options = {
     // Initialization Options
     promiseLib: promise
 };
+const pgp = require('pg-promise')(options);
 
-var pgp = require('pg-promise')(options);
-var connectionString = process.env.DATABASE_URL || 'postgres://pp-user:pp-password@localhost:5432/postgres';
-var db = pgp(connectionString);
+const connectionString = process.env.DATABASE_URL || 'postgres://pp-user:pp-password@localhost:5432/postgres';
+const conn = pgp(connectionString);
+
+// Helper for linking to external query files:
+const path = require('path');
+
+function sql(file) {
+    const fullPath = path.join(__dirname, file);
+    return new pgp.QueryFile(fullPath, {minify: true});
+}
 
 module.exports = {
-    db: db
+    conn: conn,
+    sql: sql
 };
