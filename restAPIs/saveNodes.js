@@ -1,26 +1,3 @@
-const data = {
-    "org_name": "Paradise Island",
-    "daughters": [
-        {
-            "org_name": "Banana tree",
-            "daughters": [
-                {"org_name": "Yellow Banana"},
-                {"org_name": "Brown Banana"},
-                {"org_name": "Black Banana"}
-            ]
-        },
-        {
-            "org_name": "Big banana tree",
-            "daughters": [
-                {"org_name": "Yellow Banana"},
-                {"org_name": "Brown Banana"},
-                {"org_name": "Green Banana"},
-                {"org_name": "Black Banana", "daughters": [{"org_name": "Phoneutria Spider"}]}
-            ]
-        }
-    ]
-};
-
 let n = (s) => ( (s || {})['org_name'] || '').trim();
 
 let walk = (collector, node, referenceNode, type) => {
@@ -34,9 +11,7 @@ let walk = (collector, node, referenceNode, type) => {
         }
     }
 
-    for (let i = 0; i < daughters.length; i++) {
-        walk(collector, daughters[i], node, "daughter");
-    }
+    daughters.forEach(el => walk(collector, el, node, "daughter"));
 };
 
 let pipe = (fn1, fn2) => (data) => fn2(fn1(data));
@@ -56,10 +31,13 @@ let prepareSqlData = (root) => {
 };
 
 let allNodes = (data) => {
-    let nodes = new Set();
-    for (let n in data) {
-        nodes.add(data[n][0]);
-    }
+    let nodes = {};
+
+    data.forEach((el, index) => {
+        let name = data[index][0];
+        nodes[name] = index + 1;
+    });
+
     return nodes;
 };
 
@@ -73,9 +51,18 @@ let saveNodes = (db) => {
         if (sqlData && sqlData.length > 0) {
             let nodes = allNodes(sqlData);
 
-            db.conn.tx(t => {
-                removeData(t)
-                insertData(t);
+            db.conn.tx(tx => {
+                let q = [];
+                q.push(tx.none('DELETE FROM relations;'));
+                q.push(tx.none('DELETE FROM nodes;'));
+                Object.entries(nodes).forEach(el => q.push(tx.none('INSERT INTO nodes(id, name) VALUES($1, $2);', logger([el[1], el[0]]))));
+                sqlData.slice(1) // skip root
+                    .forEach(row => q.push(tx.none('INSERT INTO relations (left_id, right_id, type_id)' +
+                        ' VALUES ($1, $2, $3)' +
+                        ' ON CONFLICT (left_id, right_id, type_id) DO NOTHING;',
+                        logger([nodes[row[0]], nodes[row[1]], row[2]])
+                    )));
+                return tx.batch(q);
             }).then(() => {
                 res.status(201).end();
             }).catch((err) => {
@@ -88,3 +75,27 @@ let saveNodes = (db) => {
 module.exports = saveNodes;
 
 
+// const data = {
+//     "org_name": "Paradise Island",
+//     "daughters": [
+//         {
+//             "org_name": "Banana tree",
+//             "daughters": [
+//                 {"org_name": "Yellow Banana"},
+//                 {"org_name": "Brown Banana"},
+//                 {"org_name": "Black Banana"}
+//             ]
+//         },
+//         {
+//             "org_name": "Big banana tree",
+//             "daughters": [
+//                 {"org_name": "Yellow Banana"},
+//                 {"org_name": "Brown Banana"},
+//                 {"org_name": "Green Banana"},
+//                 {"org_name": "Black Banana", "daughters": [{"org_name": "Phoneutria Spider"}]}
+//             ]
+//         }
+//     ]
+// };
+//
+// prepareSqlData(data);
