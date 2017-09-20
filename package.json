@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "node-pg-migrate": "^2.9.0"
+    "dotenv": "^4.0.0",
+    "node-pg-migrate": "^2.9.0",
+    "pg": "^7.3.0"
   }
 }
