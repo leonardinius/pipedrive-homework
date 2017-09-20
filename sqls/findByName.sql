@@ -21,5 +21,5 @@ WITH left_matches AS (
 )
 SELECT DISTINCT ON (org_name, relationship_type) org_name, relationship_type FROM union_all
 ORDER BY org_name
-LIMIT ${pageSize}
+LIMIT ${limit}
 OFFSET ${offset}
