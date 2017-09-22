@@ -22,11 +22,14 @@ This is [Express](https://expressjs.com/) based solution, with PostgreSQL as dat
 The [pg-promise](https://github.com/vitaly-t/pg-promise) is being used as database connector library, with built-in
 Promise-s support, out of box.
 The [node-pg-migrate](https://github.com/theoephraim/node-pg-migrate) is used to automate database incremental 
-development, e.g. migrations. Please take a look into `migrations/` folder for database DDLs, classifiers, indexes etc..
+development, e.g. migrations. 
+
+Please take a look into `migrations/` folder for database DDLs, classifiers, indexes etc..
 
 The [Mocha](https://mochajs.org/) testing framework is used for Unit and Acceptance Testing, combined 
 with [supertest](https://github.com/visionmedia/supertest) for REST in the tests (e.g. verifying response status 
 codes and contents..).
+
 See `test/` folder for more details and actual Unit and Acceptance tests definitions.
 
 The high level structure of the project:
@@ -121,7 +124,7 @@ To run the full test suite use the following command:
 yarn test
 ```
 
-It should produce report similar to one below:
+It should produce report similar to one seen below:
 
 ```
 > yarn test                
@@ -148,7 +151,7 @@ $ mocha --compilers js:babel-core/register
       ✓ page 0, pagesize 10 => limit 10, offset 0
       ✓ page 3, pagesize 10 => limit 10, offset 30
 
-  Acceptance Tests relying on database
+  Acceptance Tests relying on database updates
     GET /api/nodes/:name/?page=&pageSize=
       ✓ Empty name results in 404 (315ms)
       ✓ Ignores case sensitivity

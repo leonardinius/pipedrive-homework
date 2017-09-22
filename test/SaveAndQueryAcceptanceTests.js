@@ -6,7 +6,7 @@ const app = require('../app');
 const db = require('../db');
 const Ingestible = require('../lib/Ingestible');
 
-describe('Acceptance Tests relying on database', function () {
+describe('Acceptance Tests relying on database updates', function () {
     beforeEach(function (done) {
         let logger = console.debug;
         logger('** before **');
