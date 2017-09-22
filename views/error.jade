@@ -3,4 +3,12 @@ extends layout
 block content
   h1= message
   h2= error.status
-  pre #{error.stack}
+
+  pre
+    | Return
+    a(href="/") Home
+    br
+    br
+    | Contact your system administrators to resolve the issue
+
+  //pre #{error.stack}
