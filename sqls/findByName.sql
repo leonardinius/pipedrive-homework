@@ -20,6 +20,6 @@ WITH left_matches AS (
   SELECT * FROM right_matches
 )
 SELECT DISTINCT ON (org_name, relationship_type) org_name, relationship_type FROM union_all
-ORDER BY org_name
+ORDER BY org_name, relationship_type
 LIMIT ${limit}
 OFFSET ${offset}

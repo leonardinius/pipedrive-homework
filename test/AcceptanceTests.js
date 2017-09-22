@@ -128,21 +128,6 @@ describe('Acceptance Tests relying on database', function () {
     });
 
 
-    describe('POST /api/nodes', function (done) {
-        it('Wipes previous data on POST', function () {
-            return request(app)
-                .post('/api/nodes')
-                .set('Accept', 'application/json')
-                .send({org_name: "test"})
-                .expect(201)
-                .then(function () {
-                    return db.conn.any('select name from nodes')
-                        .then((data) => assert.equal(data[0].name, 'test'))
-                })
-                .then(done);
-        });
-    });
-
     describe('GET /api/nodes/:name/?page=&pageSize=', function (done) {
         it('Empty name results in 404', function () {
             return request(app)
@@ -194,6 +179,66 @@ describe('Acceptance Tests relying on database', function () {
                     {org_name: 'Big banana tree', relationship_type: 'parent'}
                 ])
                 .then(done);
+        });
+    });
+
+    describe('POST /api/nodes', function (done) {
+        it('Wipes previous data on POST', function () {
+            return request(app)
+                .post('/api/nodes')
+                .set('Accept', 'application/json')
+                .send({org_name: "test"})
+                .expect(201)
+                .then(function () {
+                    return db.conn.any('select name from nodes')
+                        .then((data) => assert.equal(data[0].name, 'test'))
+                })
+                .then(done);
+        });
+
+        it('Custom Data not from the task also works', function () {
+            return request(app)
+                .post('/api/nodes')
+                .set('Accept', 'application/json')
+                .send({
+                    org_name: "My Island",
+                    "daughters": [
+                        {
+                            org_name: "Banana tree",
+                            "daughters": [
+                                {org_name: "Black Banana"}
+                            ]
+                        },
+                        {
+                            org_name: "Big banana tree",
+                            "daughters": [
+                                {org_name: "Brown Banana"},
+                                {org_name: "Green Banana"},
+                                {org_name: "Black Banana", "daughters": [{org_name: "Phoneutria Spider"}]}
+                            ]
+                        },
+                        {
+                            org_name: "Black Banana"
+                        }
+                    ]
+                })
+                .expect(201)
+                .then(request(app)
+                    .get('/api/nodes/Black%20Banana/?page=0&pageSize=100')
+                    .set('Accept', 'application/json')
+                    .expect(200, [
+                            {org_name: 'Banana tree', relationship_type: 'parent'},
+                            {org_name: 'Banana tree', relationship_type: 'sister'},
+                            {org_name: 'Big banana tree', relationship_type: 'parent'},
+                            {org_name: 'Big banana tree', relationship_type: 'sister'},
+                            {org_name: 'Brown Banana', relationship_type: 'sister'},
+                            {org_name: 'Green Banana', relationship_type: 'sister'},
+                            {org_name: 'My Island', relationship_type: 'parent'},
+                            {org_name: 'Phoneutria Spider', relationship_type: 'daughter'}
+                        ]
+                    )
+                    .then(done)
+                );
         });
     });
 });
