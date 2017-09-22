@@ -1,5 +1,3 @@
-unit tests (tree traversal)
-
 assumptions
 structure
 orm?
@@ -29,7 +27,13 @@ eval $(docker-machine env default)
 ```
 brew install node
 brew install yarn
+```
 
+### Dependencies
+
+Dependencies are managed by Yarn.
+Run the following:
+```
 yarn
 ```
 
@@ -43,6 +47,7 @@ source .env
 ### Database
 
 * Run PostgreSQL
+
 ```
 docker-compose up -d
 ``` 
@@ -55,13 +60,17 @@ pg-migrate up
 
 ## Development
 
-* Run tests 
+### Run tests
 
+At the moment of writing there are several Unit Test suites and several Acceptance Test suites.
+See at the `test/` directory.
+
+To run the full test suite use the following command:
 ```
 yarn test
 ```
 
-* Run API server in JS reload mode
+### Run API server
 
 ```
 yarn dev
