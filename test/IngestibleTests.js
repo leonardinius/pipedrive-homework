@@ -57,76 +57,76 @@ let filterAsInDatabase = (name, rs) => {
         });
 };
 
-describe('Test Task sample data', function (done) {
-    it('Task sample data test', function () {
-        let ingestible = new Ingestible({
-            org_name: "Paradise Island",
-            "daughters": [
-                {
-                    org_name: "Banana tree",
-                    "daughters": [
-                        {org_name: "Yellow Banana"},
-                        {org_name: "Brown Banana"},
-                        {org_name: "Black Banana"}
-                    ]
-                },
-                {
-                    org_name: "Big banana tree",
-                    "daughters": [
-                        {org_name: "Yellow Banana"},
-                        {org_name: "Brown Banana"},
-                        {org_name: "Green Banana"},
-                        {org_name: "Black Banana", "daughters": [{org_name: "Phoneutria Spider"}]}
-                    ]
-                }
-            ]
+describe('Ingestible Tests', function () {
+    describe('Task sample data test', function (done) {
+        it('We can get down to results from data', function () {
+            let ingestible = new Ingestible({
+                org_name: "Paradise Island",
+                "daughters": [
+                    {
+                        org_name: "Banana tree",
+                        "daughters": [
+                            {org_name: "Yellow Banana"},
+                            {org_name: "Brown Banana"},
+                            {org_name: "Black Banana"}
+                        ]
+                    },
+                    {
+                        org_name: "Big banana tree",
+                        "daughters": [
+                            {org_name: "Yellow Banana"},
+                            {org_name: "Brown Banana"},
+                            {org_name: "Green Banana"},
+                            {org_name: "Black Banana", "daughters": [{org_name: "Phoneutria Spider"}]}
+                        ]
+                    }
+                ]
+            });
+
+            assert.deepEqual(ingestible.allNodes().sort(), [
+                "Paradise Island",
+                "Banana tree",
+                "Yellow Banana",
+                "Brown Banana",
+                "Black Banana",
+                "Big banana tree",
+                "Green Banana",
+                "Phoneutria Spider"
+            ].sort());
+
+            assert.deepEqual(ingestible.allRelations().sort(), [
+                    ['Banana tree', 'Big banana tree', 'sister'],
+                    ['Banana tree', 'Paradise Island', 'daughter'],
+                    ['Yellow Banana', 'Brown Banana', 'sister'],
+                    ['Yellow Banana', 'Black Banana', 'sister'],
+                    ['Brown Banana', 'Black Banana', 'sister'],
+                    ['Yellow Banana', 'Banana tree', 'daughter'],
+                    ['Brown Banana', 'Banana tree', 'daughter'],
+                    ['Black Banana', 'Banana tree', 'daughter'],
+                    ['Big banana tree', 'Paradise Island', 'daughter'],
+                    ['Yellow Banana', 'Brown Banana', 'sister'],
+                    ['Yellow Banana', 'Green Banana', 'sister'],
+                    ['Yellow Banana', 'Black Banana', 'sister'],
+                    ['Brown Banana', 'Green Banana', 'sister'],
+                    ['Brown Banana', 'Black Banana', 'sister'],
+                    ['Green Banana', 'Black Banana', 'sister'],
+                    ['Yellow Banana', 'Big banana tree', 'daughter'],
+                    ['Brown Banana', 'Big banana tree', 'daughter'],
+                    ['Green Banana', 'Big banana tree', 'daughter'],
+                    ['Black Banana', 'Big banana tree', 'daughter'],
+                    ['Phoneutria Spider', 'Black Banana', 'daughter']
+                ].sort()
+            );
+
+            let results = filterAsInDatabase('Black Banana', ingestible.allRelations());
+            assert.deepEqual(results, [
+                {org_name: "Banana tree", relationship_type: "parent"},
+                {org_name: "Big banana tree", relationship_type: "parent"},
+                {org_name: "Brown Banana", relationship_type: "sister"},
+                {org_name: "Green Banana", relationship_type: "sister"},
+                {org_name: "Phoneutria Spider", relationship_type: "daughter"},
+                {org_name: "Yellow Banana", relationship_type: "sister"}
+            ]);
         });
-
-        assert.deepEqual(ingestible.allNodes().sort(), [
-            "Paradise Island",
-            "Banana tree",
-            "Yellow Banana",
-            "Brown Banana",
-            "Black Banana",
-            "Big banana tree",
-            "Green Banana",
-            "Phoneutria Spider"
-        ].sort());
-
-        assert.deepEqual(ingestible.allRelations().sort(), [
-                ['Banana tree', 'Big banana tree', 'sister'],
-                ['Banana tree', 'Paradise Island', 'daughter'],
-                ['Yellow Banana', 'Brown Banana', 'sister'],
-                ['Yellow Banana', 'Black Banana', 'sister'],
-                ['Brown Banana', 'Black Banana', 'sister'],
-                ['Yellow Banana', 'Banana tree', 'daughter'],
-                ['Brown Banana', 'Banana tree', 'daughter'],
-                ['Black Banana', 'Banana tree', 'daughter'],
-                ['Big banana tree', 'Paradise Island', 'daughter'],
-                ['Yellow Banana', 'Brown Banana', 'sister'],
-                ['Yellow Banana', 'Green Banana', 'sister'],
-                ['Yellow Banana', 'Black Banana', 'sister'],
-                ['Brown Banana', 'Green Banana', 'sister'],
-                ['Brown Banana', 'Black Banana', 'sister'],
-                ['Green Banana', 'Black Banana', 'sister'],
-                ['Yellow Banana', 'Big banana tree', 'daughter'],
-                ['Brown Banana', 'Big banana tree', 'daughter'],
-                ['Green Banana', 'Big banana tree', 'daughter'],
-                ['Black Banana', 'Big banana tree', 'daughter'],
-                ['Phoneutria Spider', 'Black Banana', 'daughter']
-            ].sort()
-        );
-
-        let results = filterAsInDatabase('Black Banana', ingestible.allRelations());
-        assert.deepEqual(results, [
-            {org_name: "Banana tree", relationship_type: "parent"},
-            {org_name: "Big banana tree", relationship_type: "parent"},
-            {org_name: "Brown Banana", relationship_type: "sister"},
-            {org_name: "Green Banana", relationship_type: "sister"},
-            {org_name: "Phoneutria Spider", relationship_type: "daughter"},
-            {org_name: "Yellow Banana", relationship_type: "sister"}
-        ]);
     });
-
-
 });
