@@ -19,5 +19,3 @@ let queryNodes = (db, fnGetName) => {
 };
 
 module.exports = queryNodes;
-
-
