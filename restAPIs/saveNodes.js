@@ -16,7 +16,6 @@ let saveNodes = (db) => {
         }).catch((err) => {
             return next(err);
         });
-
     };
 };
 

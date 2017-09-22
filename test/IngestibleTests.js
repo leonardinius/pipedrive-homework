@@ -8,14 +8,19 @@ let inverseTypeName = (type) => {
     return mapping[type] || type;
 };
 
-let relationsToResults = (name, rs) => {
+let filterAsInDatabase = (name, rs) => {
     let cmp = (a, b) => {
         if (a == b) return 0;
         if (a < b) return -1;
         return 1;
     };
-    let filterDuplicates = {};
-    return rs.filter(el => el[0] == name || el[1] == name)
+
+    let nameTypeMarkers = {};
+
+    return rs
+        .filter(el => el[0] == name || el[1] == name)
+
+        // filter out results
         .map(el => {
             let [org1, org2, type] = el;
             if (org1 == name) {
@@ -24,16 +29,25 @@ let relationsToResults = (name, rs) => {
 
             return [org1, type];
         })
-        .map(el => {
+
+        // filter out duplicates
+        .filter(el => {
             let [orgName, type] = el;
-            let key = orgName + "-" + type;
-            if (filterDuplicates[key]) {
+            let key = orgName + " / " + type;
+            if (nameTypeMarkers[key]) {
                 return null;
             }
-            filterDuplicates[key] = key;
+            nameTypeMarkers[key] = key;
+            return key;
+        })
+
+        // map to result set
+        .map(el => {
+            let [orgName, type] = el;
             return {org_name: orgName, relationship_type: type};
         })
-        .filter(el => el)
+
+        // sort by org name
         .sort((a, b) => {
             let i = cmp(a.org_name, b.org_name);
             if (i == 0) {
@@ -103,7 +117,7 @@ describe('Test Task sample data', function (done) {
             ].sort()
         );
 
-        let results = relationsToResults('Black Banana', ingestible.allRelations());
+        let results = filterAsInDatabase('Black Banana', ingestible.allRelations());
         assert.deepEqual(results, [
             {org_name: "Banana tree", relationship_type: "parent"},
             {org_name: "Big banana tree", relationship_type: "parent"},
