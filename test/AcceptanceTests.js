@@ -205,9 +205,7 @@ describe('Acceptance Tests relying on database', function () {
                     "daughters": [
                         {
                             org_name: "Banana tree",
-                            "daughters": [
-                                {org_name: "Black Banana"}
-                            ]
+                            "daughters": [{org_name: "Black Banana"}]
                         },
                         {
                             org_name: "Big banana tree",
@@ -217,9 +215,7 @@ describe('Acceptance Tests relying on database', function () {
                                 {org_name: "Black Banana", "daughters": [{org_name: "Phoneutria Spider"}]}
                             ]
                         },
-                        {
-                            org_name: "Black Banana"
-                        }
+                        {org_name: "Black Banana"}
                     ]
                 })
                 .expect(201)
